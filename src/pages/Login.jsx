@@ -1,12 +1,15 @@
+import { useState } from "react";
+
 function Login() {
-    const {formData,setFormData} =useState({
+    const [formData,setFormData] =useState({
         email: '',
         password: ''
     });
-
-    const handleChange =(e) => {
-        const name = e.target.name;
-        const value = e.target.value;
+    const [errors,setErrors] = useState({});
+    
+    const handleChange =(event) => {
+        const name = event.target.name;
+        const value = event.target.value;
 
         setFormData({
             ...formData,
@@ -14,35 +17,56 @@ function Login() {
         });
     };
 
-    const validate =() =>{
-        let newwErrors = {};
+    const validate = () =>{
+        let newErrors = {};
         let isValid = true;
 
-        if(formDataData.email.length === 0) {
-            newwErrors.mail ="Email is required";
+        if(formData.email.length === 0) {
+            newErrors.email ="Email is required";
             isValid= false;
         }
-
+        if(formData.password.length === 0) {
+            newErrors.password ="Password is required";
+            isValid = false;
+        }
+        setErrors(newErrors);
         return isValid;
     }
     
-    const handleFormSubmit =(e) =>{
-        e.preventDefault();
+    const handleFormSubmit =(event) =>{
+        event.preventDefault();
+
+        if(validate())
+            console.log("Form submitted successfully");
+        else
+            console.log("Form Rejected");
     }
     
     return (
         <div className="container text-center">
             <h3>Login to continue</h3>
 
-            <form>
+            <form onSubmit={handleFormSubmit}>
                 <div>
                     <label>Email:</label>
-                    <input className="form-control" type='text' name="email" onChange={handleChange} />
+                    <input 
+                        className="form-control" 
+                        type='text' 
+                        name="email" 
+                        onChange={handleChange} 
+                    />
+                    {errors.email && (errors.email)}
                 </div>
 
                 <div>
                     <label>Password:</label>
-                    <input className="form-control" type ='password' name="password" onChange={handleChange} />
+                    <input 
+                        className="form-control" 
+                        type ='password' 
+                        name="password" 
+                        onChange={handleChange} 
+                    />
+                    {errors.password && (errors.password)}
                 </div>
 
                 <div>
