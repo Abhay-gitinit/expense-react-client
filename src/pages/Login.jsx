@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from 'axios';
 
 function Login() {
     const [formData,setFormData] =useState({
@@ -6,7 +7,8 @@ function Login() {
         password: ''
     });
     const [errors,setErrors] = useState({});
-    
+    const [message, setMessage] = useState('');
+
     const handleChange =(event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -33,18 +35,35 @@ function Login() {
         return isValid;
     }
     
-    const handleFormSubmit =(event) =>{
+    const handleFormSubmit = async (event) =>{
         event.preventDefault();
 
-        if(validate())
-            console.log("Form submitted successfully");
-        else
-            console.log("Form Rejected");
-    }
+        if(validate()) {
+            try {
+                const body ={
+                    email:formData.email,
+                    password:formData.password,
+                }
+                const config = { withCredentials: true };
+                const response = await axios.post(
+                    'http://localhost:5001/auth/login', body , config);
+                    console.log(response);
+                    setMessage('User Authentiacated');
+            } catch (error) {
+                console.log(error);
+                setErrors({
+                    message:'Something went wrong, please try again'
+                })
+            }
+        }
+    };
     
     return (
         <div className="container text-center">
             <h3>Login to continue</h3>
+            {message && (message)}
+            {errors.message && (errors.message)}
+
 
             <form onSubmit={handleFormSubmit}>
                 <div>
