@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 
-function Login() {
+function Login({ setUser }) {
     const [formData,setFormData] =useState({
         email: '',
         password: ''
@@ -49,6 +49,7 @@ function Login() {
                     'http://localhost:5001/auth/login', body , config);
                     console.log(response);
                     setMessage('User Authentiacated');
+                setUser(response.data.user);
             } catch (error) {
                 console.log(error);
                 setErrors({
