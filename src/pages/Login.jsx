@@ -61,13 +61,25 @@ function Login({ setUser }) {
         }
     };
     
-    const handleGoogleSuccess = (authResponse) => {
-        console.log(JSON.stringify(authResponse, null, 2));
-    }
+    const handleGoogleSuccess = async (authResponse) => {
+       try {
+        const body = {
+            idToken: authResponse?.credential,
+        };
+        const response = await axios.post("http://localhost:5001/auth/google-auth",body,{ withCredentials:true });
+        setUser(response.data.user);
+       } catch (error) {
+        console.log(error);
+        setErrors({ message: 'Unable to process google sso, please try again'});
+       }
+    };
 
     const handleGoogleFailure = (error) => {
         console.log(error);
-    }
+        setErrors({
+            message:"Something went wrong while performing google single sign-on",
+        });
+    };
 
     return (
         <div className="container text-center">
@@ -110,8 +122,12 @@ function Login({ setUser }) {
             </div>
             <div className="row justify-content-center">
                 <div className="col-6">
-                    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-                        <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleFailure} />
+                    <GoogleOAuthProvider 
+                        clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+                            <GoogleLogin 
+                                onSuccess={handleGoogleSuccess} 
+                                onError={handleGoogleFailure} 
+                            />
                     </GoogleOAuthProvider>
                 </div>
             </div>
