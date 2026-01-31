@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import AppLayout from "./components/AppLayout";
 import { useState } from "react";
 import Dashboard from "./pages/Dashboard";
+import Logout from "./components/Logout";
+import UserLayout from "./components/UserLayout";
 
 function App() {
   //Value of userDetails represents whether the use is logged in or not
@@ -11,6 +13,7 @@ function App() {
 
   return ( 
     <Routes>
+      
       <Route 
         path = "/" element = {
           userDetails ? (
@@ -22,6 +25,7 @@ function App() {
             )
         } 
       />
+      
       <Route 
         path = "/login" element = {
           userDetails ? (
@@ -33,15 +37,30 @@ function App() {
             )
         }
       />
+      
       <Route
         path = "/dashboard" 
         element = {
           userDetails ? (
-            <Dashboard user = {userDetails} />
+            <UserLayout>
+              <Dashboard user = {userDetails} />
+            </UserLayout>
           ) : (
             <Navigate to = "/login" />
           )
-        } />
+        } 
+        />
+
+        <Route
+          path="/logout"
+          element = {
+            userDetails ? (
+              < Logout setUser = {setUserDetails} />
+            ) : (
+              < Navigate to ="/login" />
+            )
+          }
+        />
     </Routes>
   );
 }
