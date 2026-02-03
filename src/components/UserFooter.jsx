@@ -1,8 +1,8 @@
-function UserFooter() {
+function Footer() {
     return (
-        <div className="container">
-        This is Footer</div>
+        <div className="container-fluid bg-light text-center py-3">
+        All Rights Reserved.</div>
     );
 }
 
-export default UserFooter;
+export default Footer;

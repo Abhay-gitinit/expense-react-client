@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 
 function UserHeader() {
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
-            <div className="container-fluid">
+        <nav 
+        className="navbar navbar-expand-lg bg-dark border-bottom border-body" 
+        data-bs-theme="dark">
+            <div className="container">
                 <Link className="navbar-brand" to="/dashboard">
-                Expense App
+                Dashboard
                 </Link>
                 <button
                     aria-controls="navbarSupportedContent"
@@ -22,20 +24,26 @@ function UserHeader() {
                     className="collapse navbar-collapse"
                     id = "navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link
-                                    aria-current="page"
-                                    className="nav-link active"
-                                    to="/dashboard">
-                                        Dashboard
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/logout">
-                                    Logout
-                                </Link>
-                            </li>
+                            {/*Add other nav links here if needed */ }
                         </ul>
+                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link fropdown-toggle"
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-exapanded="false">
+                                    Account
+                                </Link>
+                                <ul className="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <Link className="dropdown-item" to="/logout">
+                                        Logout
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>                    
                 </div>
             </div>
         </nav>

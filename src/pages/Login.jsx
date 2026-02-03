@@ -53,9 +53,8 @@ function Login({ setUser }) {
                     setMessage('User Authentiacated');
                 setUser(response.data.user);
             } catch (error) {
-                console.log(error);
                 setErrors({
-                    message:"Something went wrong, please try again",
+                    message:error.response?.data?.message || "Login failed"
                 });
             }
         }
