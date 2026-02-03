@@ -8,18 +8,29 @@ import Logout from "./components/Logout";
 import UserLayout from "./components/UserLayout";
 import axios from "axios";
 import { serverEndpoint } from "./config/appConfig"
+import { useSelector, useDispatch } from "react-redux";
+import {SET_USER} from "./redux/user/action";
 
 function App() {
   //Value of userDetails represents whether the use is logged in or not
-  const [userDetails, setUserDetails] =useState(null);
+  const dispatch = useDispatch();
+
+  const userDetails = useSelector((state) => state.userDetails);
+  const [ loading, setLoading ]= useState(true);
 
   const isUserLoggedIn = async() => {
     try {
       const response = await axios.post(`${serverEndpoint}/auth/is-user-logged-in`,{}, { withCredentials: true});
       
-      setUserDetails(response.data.user);
+      //setUserDetails(response.data.user);
+      dispatch({
+        type:SET_USER,
+        payload: response.data.user
+      });
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,7 +59,7 @@ function App() {
             <Navigate to = "/dashboard" />
           ) : (
             <AppLayout>
-              <Login setUser = {setUserDetails} /> 
+              <Login /> 
             </AppLayout>
             )
         }
@@ -58,8 +69,8 @@ function App() {
         path = "/dashboard" 
         element = {
           userDetails ? (
-            <UserLayout user ={userDetails}>
-              <Dashboard user = {userDetails} />
+            <UserLayout>
+              <Dashboard />
             </UserLayout>
           ) : (
             <Navigate to = "/login" />
@@ -71,7 +82,7 @@ function App() {
           path="/logout"
           element = {
             userDetails ? (
-              < Logout setUser = {setUserDetails} />
+              < Logout />
             ) : (
               < Navigate to ="/login" />
             )

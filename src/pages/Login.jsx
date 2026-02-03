@@ -2,8 +2,12 @@ import { useState } from "react";
 import axios from 'axios';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { serverEndpoint } from "../config/appConfig";
+import { useDispatch } from "react-redux";
+import { SET_USER } from "../redux/user/action";
 
-function Login({ setUser }) {
+function Login() {
+    const dispatch = useDispatch();
+    
     const [formData,setFormData] =useState({
         email: "",
         password: "",
@@ -52,7 +56,11 @@ function Login({ setUser }) {
                     `${serverEndpoint}/auth/login`, body , config);
                     console.log(response);
                     setMessage('User Authentiacated');
-                setUser(response.data.user);
+                // setUser(response.data.user);
+                dispatch({
+                    type:SET_USER,
+                    payload: response.data.user
+                })
             } catch (error) {
                 setErrors({
                     message:error.response?.data?.message || "Login failed"
@@ -67,7 +75,11 @@ function Login({ setUser }) {
             idToken: authResponse?.credential,
         };
         const response = await axios.post(`${serverEndpoint}/auth/google-auth`,body,{ withCredentials:true });
-        setUser(response.data.user);
+        //setUser(response.data.user);
+        dispatch({
+                    type:SET_USER,
+                    payload: response.data.user
+                })
        } catch (error) {
         console.log(error);
         setErrors({ message: 'Unable to process google sso, please try again'});
