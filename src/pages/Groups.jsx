@@ -35,6 +35,15 @@ function Groups() {
 
     return (
         <div className="container p-5">
+            <div className="container p-5">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 className="fw-bold">Your Groups</h2>
+                        <p className="text-muted">Manage Your shared Expenses and Split Expenses</p>
+                    </div>
+                    <button className="btn btn-primary rounded-pill px-4 fw-bold shadow-sm ">Create Group</button>
+                </div>
+            </div>
             {groups.length === 0 && (
                 <div className="">
                     <p>No Groups Found, Start By Creating One!</p>
