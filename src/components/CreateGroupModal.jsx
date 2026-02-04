@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { serverEndpoint } from "../config/appConfig";
+import { useSelector } from "react-redux";
 
 function CreateGroupModal({ show, onHide, onSuccess }) {
+    const user = useSelector((state) => state)
     const [formData, setFormData] =useState({
         name: '',
         description:''
@@ -33,8 +35,8 @@ function CreateGroupModal({ show, onHide, onSuccess }) {
         const value = e.target.value;
         setFormData({
             ...formData,
-            [name]:value
-        })
+            [name]:value,
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -42,11 +44,25 @@ function CreateGroupModal({ show, onHide, onSuccess }) {
 
         if(validate()) {
             try {
-                await axios.post(
+                const response = await axios.post(
                     `${serverEndpoint}/groups/create`, {name:formData.name, description:formData.description},
                     {withCredentials:true}
                 );
-                onSuccess();
+                const groupId = response.data.groupId;
+                onSuccess({
+                    name:formData.name,
+                    description: formData.description,
+                    _id: groupId,
+                    membersEmail: [user.email],
+                    paymentStatus: {
+                        amount:0,
+                        currency:"INR",
+                        data:"2026-02-02T16:02:05:110Z",
+                        isPaid: false,
+                    },
+                    thumbnail:"",
+                    isPaid:false,
+                });
                 onHide();
             } catch (error) {
                 console.log(error);
