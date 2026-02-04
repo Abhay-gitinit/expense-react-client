@@ -10,6 +10,7 @@ import axios from "axios";
 import { serverEndpoint } from "./config/appConfig"
 import { useSelector, useDispatch } from "react-redux";
 import {SET_USER} from "./redux/user/action";
+import Groups from "./pages/Groups";
 
 function App() {
   //Value of userDetails represents whether the use is logged in or not
@@ -77,17 +78,30 @@ function App() {
           )
         } 
         />
+      
+      <Route
+        path="/groups"
+        element={
+          userDetails ? (
+            <UserLayout>
+              <Groups />
+            </UserLayout>
+          ) : (
+            <Navigate to="/login"/>
+          )
+        } 
+      />
 
-        <Route
-          path="/logout"
-          element = {
-            userDetails ? (
-              < Logout />
-            ) : (
-              < Navigate to ="/login" />
-            )
-          }
-        />
+      <Route
+        path="/logout"
+        element = {
+          userDetails ? (
+            < Logout />
+          ) : (
+            < Navigate to ="/login" />
+          )
+        }
+      />
     </Routes>
   );
 }
