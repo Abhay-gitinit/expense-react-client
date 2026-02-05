@@ -1,0 +1,183 @@
+/* =========================
+   HERO
+========================= */
+.hero-terminal {
+  background: #ffffff;
+}
+
+.terminal-title {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.terminal-strong {
+  color: #000;
+}
+
+.terminal-muted {
+  color: #777;
+  font-weight: 400;
+}
+
+.terminal-sub {
+  color: #444;
+  max-width: 600px;
+  margin: auto;
+}
+
+/* =========================
+   FEATURE CARDS
+========================= */
+.terminal-card {
+  border: 2px solid #000;
+  padding: 30px;
+  height: 100%;
+  cursor: pointer;
+  background: #fff;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.terminal-card h5 {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.terminal-card p {
+  color: #333;
+  margin-bottom: 0;
+}
+
+.terminal-card:hover {
+  background: #000;
+  color: #00ff88;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
+  transform: translateY(-6px);
+}
+
+.terminal-card:hover p,
+.terminal-card:hover h5 {
+  color: #00ff88;
+}
+
+/* =========================
+   HOW IT WORKS SECTION
+========================= */
+.how-section {
+  background: #ffffff;
+}
+
+.how-title {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Connector line */
+.how-steps-wrapper {
+  position: relative;
+}
+
+.how-steps-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 32px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #ccc, transparent);
+  z-index: 0;
+}
+
+/* Step cards */
+.how-step {
+  position: relative;
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  z-index: 1;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.how-step:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.how-step h5 {
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.how-step p {
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.step-index {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+/* =========================
+   GET STARTED BUTTON
+   (Same style as feature cards)
+========================= */
+.terminal-btn {
+  display: inline-block;
+
+  border: 2px solid #ffffff;
+  background: #fff;
+  color: #000;
+
+  margin-top: 24px;
+  padding: 14px 32px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+
+  cursor: pointer;
+  text-align: center;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Remove link defaults */
+.terminal-btn,
+.terminal-btn:visited,
+.terminal-btn:hover,
+.terminal-btn:active {
+  text-decoration: none;
+}
+
+/* Hover = EXACTLY like feature cards */
+.terminal-btn:hover {
+  background: #000;
+  color: #00ff88;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
+  transform: translateY(-4px);
+}
