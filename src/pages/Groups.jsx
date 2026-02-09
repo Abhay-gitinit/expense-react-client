@@ -34,9 +34,13 @@ function Groups() {
 
   // Update group after add/remove member
   const handleGroupUpdate = (updatedGroup) => {
-    setGroups((prev) =>
-      prev.map((g) => (g._id === updatedGroup._id ? updatedGroup : g)),
-    );
+    if (updatedGroup.deleted) {
+      setGroups((prev) => prev.filter((g) => g._id !== updatedGroup._id));
+    } else {
+      setGroups((prev) =>
+        prev.map((g) => (g._id === updatedGroup._id ? updatedGroup : g)),
+      );
+    }
   };
 
   // Add newly created group
@@ -44,7 +48,7 @@ function Groups() {
     setGroups((prev) => [newGroup, ...prev]);
   };
 
-  // Search filter 
+  // Search filter
   const filteredGroups = groups.filter((group) =>
     group.name.toLowerCase().includes(search.toLowerCase()),
   );

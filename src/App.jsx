@@ -11,7 +11,7 @@ import ExpensePage from "./pages/ExpensesPage";
 
 import AppLayout from "./components/AppLayout";
 import UserLayout from "./components/UserLayout";
-import Logout from "./pages/Logout";
+import Logout from "./components/Logout";
 
 import { serverEndpoint } from "./config/appConfig";
 import { SET_USER } from "./redux/user/action";

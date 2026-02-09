@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useEffect } from "react";
+import axios from "axios";
 import { serverEndpoint } from "../config/appConfig";
 import { useDispatch } from "react-redux";
-import { CLEAR_USER } from "../config/appConfig";
+import { CLEAR_USER } from "../redux/user/action";
 
 function Logout() {
   const dispatch = useDispatch();
@@ -14,8 +14,7 @@ function Logout() {
         {},
         { withCredentials: true },
       );
-      document.cookie = `jwtToken=; expires=Thu, 01 Jan 1970 00:00:00; path=/;`;
-      //setUser(null);
+      document.cookie = `jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       dispatch({
         type: CLEAR_USER,
       });
@@ -23,7 +22,6 @@ function Logout() {
       console.log(error);
     }
   };
-
   useEffect(() => {
     handleLogout();
   }, []);
