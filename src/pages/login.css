@@ -1,0 +1,201 @@
+/* ================================
+   AUTH PAGE WRAPPER
+================================ */
+.auth-page {
+  height: calc(100vh - 64px); /* navbar height */
+  background: #ffffff;
+}
+
+/* ================================
+   LEFT SIDE (LOTTIE AREA)
+================================ */
+.auth-left {
+  background: #ffffff;
+}
+
+.auth-lottie {
+  width: 420px;
+  height: 420px; /* IMPORTANT */
+  max-width: 100%;
+  animation: fadeIn 0.8s ease;
+}
+
+/* ================================
+   RIGHT SIDE – PURPLE LAPTOP GRADIENT
+================================ */
+.auth-right {
+  background: linear-gradient(
+    135deg,
+    #6a5cff 0%,
+    /* soft purple */ #5b4bdb 35%,
+    /* indigo */ #4b3bb7 65%,
+    /* deep violet */ #3b2f91 100% /* dark purple */
+  );
+
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle glow like the laptop illustration */
+.auth-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 80% 20%,
+    rgba(173, 166, 255, 0.25),
+    transparent 55%
+  );
+  pointer-events: none;
+}
+
+/* ================================
+   LOGIN CARD
+================================ */
+.auth-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 380px;
+  padding: 2.5rem;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  animation: slideUp 0.6s ease;
+}
+
+/* ================================
+   TEXT
+================================ */
+.auth-card h2 {
+  font-weight: 700;
+}
+
+.auth-card p {
+  font-size: 0.95rem;
+}
+
+/* ================================
+   INPUTS
+================================ */
+.auth-input {
+  height: 48px;
+  border-radius: 30px;
+  padding-left: 1.25rem;
+  border: 1px solid #d1d5db;
+}
+
+.auth-input:focus {
+  border-color: #6a5cff;
+  box-shadow: 0 0 0 2px rgba(106, 92, 255, 0.2);
+}
+
+/* ================================
+   BUTTON
+================================ */
+.auth-btn {
+  height: 48px;
+  border-radius: 30px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #6a5cff, #5b4bdb);
+  border: none;
+}
+
+.auth-btn:hover {
+  background: linear-gradient(135deg, #5b4bdb, #4b3bb7);
+}
+
+/* ================================
+   GOOGLE ICON BUTTON
+================================ */
+.google-icon-btn iframe {
+  border-radius: 50% !important;
+}
+
+/* ================================
+   ANIMATIONS
+================================ */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   MOBILE FIXES
+================================ */
+@media (max-width: 991px) {
+  .auth-right {
+    border-radius: 0;
+  }
+
+  .auth-card {
+    margin-top: 2rem;
+  }
+}
+.auth-toggle {
+  position: relative;
+  display: flex;
+  background: #f1f3f8;
+  border-radius: 999px;
+  padding: 4px;
+  overflow: hidden;
+}
+
+/* SLIDING INDICATOR */
+.auth-toggle-slider {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: #6a5cff;
+  border-radius: 999px;
+  transition: transform 0.35s ease;
+  z-index: 0;
+}
+
+/* Move slider right */
+.auth-toggle-slider.right {
+  transform: translateX(100%);
+}
+
+/* BUTTONS */
+.auth-toggle button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px;
+  border-radius: 999px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  color: #4b5563;
+  transition: color 0.3s ease;
+}
+
+.auth-toggle button.active {
+  color: #ffffff;
+}
+
+.auth-toggle button:hover:not(.active) {
+  color: #1f2937;
+}
