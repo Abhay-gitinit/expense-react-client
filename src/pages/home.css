@@ -141,24 +141,19 @@
 }
 
 /* =========================
-   GET STARTED BUTTON
-   (Same style as feature cards)
+   TERMINAL BUTTON
 ========================= */
 .terminal-btn {
   display: inline-block;
-
-  border: 2px solid #ffffff;
+  border: 2px solid #000;
   background: #fff;
   color: #000;
-
   margin-top: 24px;
   padding: 14px 32px;
   font-weight: 700;
   letter-spacing: 0.4px;
-
   cursor: pointer;
   text-align: center;
-
   transition:
     background 0.25s ease,
     color 0.25s ease,
@@ -166,7 +161,6 @@
     transform 0.25s ease;
 }
 
-/* Remove link defaults */
 .terminal-btn,
 .terminal-btn:visited,
 .terminal-btn:hover,
@@ -174,10 +168,78 @@
   text-decoration: none;
 }
 
-/* Hover = EXACTLY like feature cards */
 .terminal-btn:hover {
   background: #000;
   color: #00ff88;
-  box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 0 12px rgba(58, 48, 150, 0.4);
   transform: translateY(-4px);
+}
+
+/* ===============================
+   DASHBOARD FINAL BALANCE
+================================ */
+
+.dashboard-balance-label {
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  font-size: 1.4rem; /* Bigger Balance text */
+  font-weight: 600;
+  color: #495057;
+}
+
+/* ===============================
+   TERMINAL-TYPED BALANCE LABEL
+================================ */
+
+/* ===============================
+   TERMINAL-TYPED BALANCE AMOUNT
+================================ */
+
+.dashboard-balance-amount {
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 3rem; /* slightly bigger */
+  font-weight: 600;
+  letter-spacing: 0.05em; /* typed spacing */
+}
+
+/* Cursor blink */
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* Positive */
+.balance-positive {
+  color: #0a8f3c;
+}
+
+/* Negative */
+.balance-negative {
+  color: #c0392b;
+}
+
+/* Settled */
+.balance-settled {
+  color: #6c757d;
+}
+/* ===============================
+   TERMINAL TYPING CARET
+================================ */
+
+.typing-caret {
+  margin-left: 4px;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+.tx-container {
+  overflow: hidden;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease;
+  max-height: 420px;
+  opacity: 1;
+}
+
+.tx-container:not(.expanded) {
+  max-height: 260px; /* enough for ~5 rows */
 }

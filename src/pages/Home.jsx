@@ -50,7 +50,7 @@ function Home() {
         <div className="container text-center">
           <h1 className="terminal-title">
             <span className="terminal-strong">Settle </span>
-            <span className="terminal-grey">expenses</span>
+            <span className="terminal-grey">Expenses</span>
             <span className="terminal-muted"> | Smarter</span>
           </h1>
 
