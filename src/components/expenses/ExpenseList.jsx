@@ -35,7 +35,7 @@ function ExpenseList({ groupId }) {
       <div className="list-group">
         {expenses.map((expense) => (
           <ExpenseItem
-            key={expense._id} // ✅ correct key
+            key={expense._id} 
             expense={expense}
           />
         ))}
