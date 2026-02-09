@@ -1,14 +1,12 @@
-import UserFooter from "./UserFooter";      
 import UserHeader from "./UserHeader";
 
 function UserLayout({ children }) {
-    return (
-        <>
-            <UserHeader />
-            {children}
-            <UserFooter />
-        </>
-    );
+  return (
+    <>
+      <UserHeader />
+      <main className="container py-4">{children}</main>
+    </>
+  );
 }
 
 export default UserLayout;
