@@ -1,6 +1,6 @@
-import BalanceRow from "./BalanceRow";
+import BalanceRow from "./settlement/BalanceRow";
 
-function BalanceList({ balances, onSelect }) {
+function BalanceList({ balances = {}, onSelect }) {
   const entries = Object.entries(balances);
 
   return (
@@ -17,7 +17,7 @@ function BalanceList({ balances, onSelect }) {
             key={email}
             email={email}
             amount={amount}
-            onClick={() => onSelect({ email, amount })}
+            onClick={() => onSelect?.({ email, amount })}
           />
         ))}
       </div>
