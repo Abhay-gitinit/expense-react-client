@@ -1,23 +1,28 @@
 import axios from "axios";
 import { serverEndpoint } from "../config/appConfig";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import GroupCard from "../components/GroupCard";
+import CreateGroupCard from "../components/CreateGroupCard";
 import CreateGroupModal from "../components/CreateGroupModal";
 
 function Groups() {
+  const navigate = useNavigate();
+
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [show, setShow] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
+  const [search, setSearch] = useState("");
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get(
-        `${serverEndpoint}/groups/my-groups`,
-        { withCredentials: true }
-      );
-      setGroups(response.data.data || []);
-    } catch (error) {
-      console.log(error);
+      const res = await axios.get(`${serverEndpoint}/groups/my-groups`, {
+        withCredentials: true,
+      });
+      setGroups(res.data.data || []);
+    } catch (err) {
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -27,69 +32,84 @@ function Groups() {
     fetchGroups();
   }, []);
 
-  // 🔁 update group after add/remove member
+  // Update group after add/remove member
   const handleGroupUpdate = (updatedGroup) => {
-    setGroups((prevGroups) =>
-      prevGroups.map((g) =>
-        g._id === updatedGroup._id ? updatedGroup : g
-      )
+    setGroups((prev) =>
+      prev.map((g) => (g._id === updatedGroup._id ? updatedGroup : g)),
     );
   };
 
-  // ➕ add newly created group
-  const handleCreateGroupSuccess = (newGroup) => {
-    setGroups((prev) => [...prev, newGroup]);
+  // Add newly created group
+  const handleCreateSuccess = (newGroup) => {
+    setGroups((prev) => [newGroup, ...prev]);
   };
+
+  // Search filter 
+  const filteredGroups = groups.filter((group) =>
+    group.name.toLowerCase().includes(search.toLowerCase()),
+  );
 
   if (loading) {
     return (
-      <div className="container p-5">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading....</span>
-        </div>
+      <div className="container p-5 text-center">
+        <div className="spinner-border" />
       </div>
     );
   }
 
   return (
     <div className="container p-5">
+      {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h2 className="fw-bold">Your Groups</h2>
-          <p className="text-muted">
-            Manage your shared expenses and split costs
-          </p>
+        <div className="d-flex align-items-center gap-3">
+          {/* Back Arrow button */}
+          <button
+            className="back-arrow-btn"
+            onClick={() => navigate("/dashboard")}
+            aria-label="Back to dashboard"
+          >
+            ←
+          </button>
+
+          <h2 className="fw-bold mb-0">
+            My <span className="laptop-purple">Groups</span>
+          </h2>
         </div>
-        <button
-          className="btn btn-primary rounded-pill px-4 fw-bold shadow-sm"
-          onClick={() => setShow(true)}
-        >
-          Create Group
-        </button>
+        {/* Filter Search option*/}
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search groups..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
-      {groups.length === 0 && (
-        <p>No Groups Found, Start By Creating One!</p>
-      )}
+      {/* Grid */}
+      <div className="row g-4">
+        {/* Create Group Card */}
+        <div className="col-md-6 col-lg-4">
+          <CreateGroupCard onClick={() => setShowCreate(true)} />
+        </div>
 
-      {groups.length > 0 && (
-        <div className="row g-4">
-          {groups.map((group) => (
-            <div className="col-md-6 col-lg-4" key={group._id}>
-              <GroupCard
-                group={group}
-                onUpdate={handleGroupUpdate}
-              />
-            </div>
-          ))}
+        {/* Groups */}
+        {filteredGroups.map((group) => (
+          <div className="col-md-6 col-lg-4" key={group._id}>
+            <GroupCard group={group} onUpdate={handleGroupUpdate} />
+          </div>
+        ))}
+      </div>
+
+      {/* Create Group Modal */}
+      {showCreate && (
+        <div className="modal-backdrop-blur">
+          <CreateGroupModal
+            show={showCreate}
+            onHide={() => setShowCreate(false)}
+            onSuccess={handleCreateSuccess}
+          />
         </div>
       )}
-
-      <CreateGroupModal
-        show={show}
-        onHide={() => setShow(false)}
-        onSuccess={handleCreateGroupSuccess}
-      />
     </div>
   );
 }
