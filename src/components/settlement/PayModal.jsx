@@ -12,20 +12,61 @@ function PayModal({ settlement, groupId, onClose, onSuccess }) {
       setLoading(true);
       setError("");
 
-      await axios.post(
-        `${serverEndpoint}/expenses/settle/${groupId}`,
-        {
-          from: settlement.from,
-          to: settlement.to,
-          amount: Number(amount),
-        },
-        { withCredentials: true },
+      // 1️⃣ Create Razorpay order
+      const orderRes = await axios.post(
+        `${serverEndpoint}/payments/create-order`,
+        { amount: Number(amount) },
+        { withCredentials: true }
       );
 
-      onSuccess();
-      onClose();
+      const order = orderRes.data;
+
+      // 2️⃣ Open Razorpay checkout
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: "INR",
+        name: "Expense Split App",
+        description: `Settlement with ${settlement.to}`,
+        order_id: order.id,
+
+        handler: async function (response) {
+          try {
+            // 3️⃣ Verify payment & create settlement expense
+            await axios.post(
+              `${serverEndpoint}/payments/verify`,
+              {
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                groupId,
+                from: settlement.from,
+                to: settlement.to,
+                amount: Number(amount),
+              },
+              { withCredentials: true }
+            );
+
+            onSuccess(); // refresh balances
+            onClose();
+          } catch (err) {
+            setError("Payment verification failed");
+          }
+        },
+
+        prefill: {
+          email: settlement.from,
+        },
+
+        theme: {
+          color: "#6f42c1",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (err) {
-      setError(err.response?.data?.message || "Payment failed");
+      setError(err.response?.data?.message || "Unable to initiate payment");
     } finally {
       setLoading(false);
     }
@@ -75,7 +116,7 @@ function PayModal({ settlement, groupId, onClose, onSuccess }) {
               onClick={handlePay}
               disabled={loading}
             >
-              {loading ? "Paying..." : `Pay ₹${amount}`}
+              {loading ? "Processing..." : `Pay ₹${amount}`}
             </button>
           </div>
         </div>
