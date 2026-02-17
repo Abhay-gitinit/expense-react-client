@@ -23,7 +23,7 @@ function AddExpenseModal({ groupId, members = [], onClose, onExpenseAdded }) {
       return [...others, { email, value: Number(value) }];
     });
   };
-
+  //form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
